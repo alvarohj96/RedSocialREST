@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,7 +24,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.naming.NamingContext;
 
 import com.mysql.jdbc.Statement;
-
 import clase.datos.Link;
 import clase.datos.Usuario;
 import clase.datos.Usuarios;
@@ -102,10 +102,8 @@ public class RecursosUsuarios {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUsuario(Usuario usuario) {
-		System.out.println("dentro1");
 		try {
-			System.out.println("dentro2");
-			String sql = "INSERT INTO SocialUPM.Usuario (idUser, nombre) VALUES (" +usuario.getId() + ", '" + usuario.getnombre() +"' );";
+			String sql = "INSERT INTO SocialUPM.Usuario (nombre) VALUES ('" + usuario.getnombre() +"' );";
 			PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			int affectedRows = ps.executeUpdate();
 			
@@ -122,6 +120,24 @@ public class RecursosUsuarios {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No se pudo crear el usuario\n" + e.getStackTrace()).build();
+		}
+	}
+	
+	@DELETE
+	@Path("{usuario_id}")
+	public Response deleteUsuario(@PathParam("usuario_id") String id) {
+		try {
+			Usuario usuario;
+			int int_id = Integer.parseInt(id);
+			String sql = "DELETE FROM SocialUPM.Usuario WHERE idUser=" + int_id + ";";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			int affectedRows = ps.executeUpdate();
+			if (affectedRows == 1)
+				return Response.status(Response.Status.NO_CONTENT).build();
+			else 
+				return Response.status(Response.Status.NOT_FOUND).entity("Elemento no encontrado").build();		
+		} catch (SQLException e) {
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No se pudo eliminar el usuario\n" + e.getStackTrace()).build();
 		}
 	}
 	
