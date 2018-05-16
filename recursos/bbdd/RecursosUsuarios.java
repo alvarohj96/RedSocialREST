@@ -106,7 +106,7 @@ public class RecursosUsuarios {
 		}
 	}
 	
-	//Buscar lista de amigos por su nombre
+	//Buscar lista de posibles amigos por su nombre
 	@GET
 	@Path("/buscar")
 	@Produces({MediaType.APPLICATION_JSON})
