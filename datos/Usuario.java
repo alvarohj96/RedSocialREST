@@ -1,25 +1,32 @@
 package clase.datos;
 
-import java.util.ArrayList;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "usuario")
 public class Usuario {
     private int id;
     private String nombre;
-    private ArrayList<Usuario> amigos;
-    private ArrayList<Post> posts;
+    private String pais;
+    private String descripcion;
 
-    public Usuario() {
-        this.amigos = new ArrayList<Usuario>();
-        this.posts = new ArrayList<Post>();
+    public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Usuario() {
+    
     }
     
     public int getId() {
@@ -37,31 +44,12 @@ public class Usuario {
 	public void setnombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	@XmlElementWrapper(name="usuarios")
-	@XmlElement(name="usuario")
-	public ArrayList<Usuario> getAmigos() {
-		return amigos;
-	}
-	
-	public void setAmigos(ArrayList<Usuario> amigos) {
-		this.amigos = amigos;
-	}
 
-	public ArrayList<Post> getPosts() {
-		return posts;
-	}
-	
-	@XmlElementWrapper(name="posts")
-	@XmlElement(name="post")
-	public void setPosts(ArrayList<Post> posts) {
-		this.posts = posts;
-	}
-	public Usuario(String nombre) {
+	public Usuario(String nombre,String pais, String descripcion) {
 		super();
 	    this.id = id;
 	    this.nombre=nombre;
-	    this.amigos = new ArrayList<>();
-	    this.posts = new ArrayList<>();
+	    this.pais=pais;
+	    this.descripcion=descripcion;
 	}
 }
